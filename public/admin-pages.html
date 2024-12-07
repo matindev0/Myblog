@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Pages</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Admin - Manage Pages</h1>
+    <form id="new-page-form" action="/admin/pages/add" method="POST" class="form">
+      <input type="text" name="title" placeholder="Page Title" class="input" required>
+      <input type="text" name="slug" placeholder="Page Slug" class="input" required>
+      <textarea name="content" placeholder="Page Content" class="textarea" required></textarea>
+      <button type="submit" class="btn">Add New Page</button>
+    </form>
+    <h2>Manage Pages</h2>
+    <div id="page-list"></div>
+    <script>
+      async function fetchPages() {
+        const response = await fetch('/admin/pages');
+        const pages = await response.json();
+        const pageList = document.getElementById('page-list');
+        pageList.innerHTML = '';
+        pages.forEach(page => {
+          const pageDiv = document.createElement('div');
+          pageDiv.className = 'page-item';
+          pageDiv.innerHTML = `<h3>${page.title}</h3><p>${page.content}</p>`;
+          pageList.appendChild(pageDiv);
+        });
+      }
+      fetchPages();
+    </script>
+  </div>
+</body>
+</html>
